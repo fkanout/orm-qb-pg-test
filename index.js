@@ -2,7 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 
-const knex = require('./db')
+
 
 const app = new Koa();
 const router = new Router();
@@ -12,30 +12,60 @@ app.use(router.routes())
 app.use(router.allowedMethods());
 
 
-router.post('/organizations', async (ctx, next) => {
+const  {knex} = require('./db')
+const  {Organizations, Subscriptions} = require('./db/models')
+
+router.post('/qb/organizations', async (ctx, next) => {
     const orgAdded = await knex('organizations').insert(ctx.request.body)
     ctx.body = orgAdded
     await next()
 });
  
-router.get('/organizations', async (ctx, next) => {
-    const allOrg = await knex.select().from('organizations').timeout(1000)
+router.get('/qb/organizations', async (ctx, next) => {
+    const allOrg = await knex.select().from('organizations').where({}).timeout(1000)
     ctx.body = allOrg
     await next()
 });
     
 
-router.post('/subscriptions', async (ctx, next) => {
+router.post('/qb/subscriptions', async (ctx, next) => {
     const subAdded = await knex('subscriptions').insert(ctx.request.body)
     ctx.body = subAdded
     await next()
 });
 
  
-router.get('/subscriptions', async (ctx, next) => {
+router.get('/qb/subscriptions', async (ctx, next) => {
     const allSub = await knex.select().from('subscriptions').timeout(1000)
     ctx.body = allSub
     await next()
 });
+
+
+
+
+//Objection
+router.post('/orm/organizations', async (ctx, next) => {
+    const orgAdded = await Organizations.query().insert(ctx.request.body)
+    ctx.body = orgAdded
+    await next()
+});
+ 
+router.get('/orm/organizations', async (ctx, next) => {
+    // const allOrg = await Organizations.query().limit(ctx.query.limit||10)//page, rage
+    const allOrg = await Organizations.query().eager('subscriptions');    
+
+
+    ctx.body = allOrg
+    await next()
+});
+
+router.get('/orm/subscriptions', async (ctx, next) => {
+    const allSub = await Subscriptions.query().eager('organizationsId(selectNameAndId)');    
+    ctx.body = allSub
+    await next()
+});
+
+
 
 app.listen(3000, ()=> console.info('Server running...'));
