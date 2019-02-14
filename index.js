@@ -26,16 +26,16 @@ router.get('/organizations', async (ctx, next) => {
     
 
 router.post('/subscriptions', async (ctx, next) => {
-    const orgAdded = await knex('subscriptions').insert(ctx.request.body)
-    ctx.body = orgAdded
+    const subAdded = await knex('subscriptions').insert(ctx.request.body)
+    ctx.body = subAdded
     await next()
 });
 
  
 router.get('/subscriptions', async (ctx, next) => {
-    const allOrg = await knex.select().from('subscriptions').timeout(1000)
-    ctx.body = allOrg
+    const allSub = await knex.select().from('subscriptions').timeout(1000)
+    ctx.body = allSub
     await next()
 });
 
-app.listen(3000, ()=> console.info('server running...'));
+app.listen(3000, ()=> console.info('Server running...'));
