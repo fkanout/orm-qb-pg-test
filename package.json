@@ -1,0 +1,30 @@
+{
+  "name": "orm-qb-pg-test",
+  "version": "1.0.0",
+  "description": "Test different Node ORMs and query builders using PostgreSQL DB",
+  "main": "index.js",
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "nodemon": "^1.18.10",
+    "pg": "^7.8.0",
+    "knex": "^0.16.3",
+    "sqlite3": "^4.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fkanout/orm-qb-pg-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fkanout/orm-qb-pg-test/issues"
+  },
+  "homepage": "https://github.com/fkanout/orm-qb-pg-test#readme"
+}
