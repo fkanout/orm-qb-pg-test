@@ -2,23 +2,33 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 
+const graphQlBuilder = require('objection-graphql').builder;
+const graphqlHTTP = require('koa-graphql');
 
+const  {knex} = require('./db')
+const  {Organizations, Subscriptions, Offerings} = require('./db/models')
+
+const graphQlSchema = graphQlBuilder()
+  .model(Organizations)
+  .model(Subscriptions)
+  .model(Offerings)
+  .build();
 
 const app = new Koa();
 const router = new Router();
-const to = (promise) => {
-    return promise
-      .then(data => [null, data])
-      .catch(err => [err, null])
-  }
+
 app.use(bodyParser());
 app.use(router.routes())
 app.use(router.allowedMethods());
 
 
-const  {knex} = require('./db')
-const  {Organizations, Subscriptions, Offerings} = require('./db/models')
+const to = (promise) => {
+    return promise
+      .then(data => [null, data])
+      .catch(err => [err, null])
+  }
 
+  
 router.post('/qb/organizations', async (ctx, next) => {
     const orgAdded = await to(knex('organizations').insert(ctx.request.body))
     ctx.body = orgAdded
@@ -106,4 +116,9 @@ router.get('/orm/offerings', async (ctx, next) => {
 });
 // *************************
 
+
+router.all('/graphql', graphqlHTTP({
+    schema: graphQlSchema,
+    graphiql: true
+  }));
 app.listen(3000, ()=> console.info('Server running...'));
