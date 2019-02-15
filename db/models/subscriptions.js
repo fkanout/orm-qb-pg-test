@@ -10,6 +10,19 @@ class Subscriptions extends Model {
           builder.where('status', 'active');
         }
       }
-    };
+    }
+    static get relationMappings() {
+      const {Offerings} = require('./')
+      return {
+          subscriptions: {
+              relation: Model.HasManyRelation,
+              modelClass: Offerings,
+              join: {
+                  from: 'subscriptions.id',
+                  to: 'offerings.subscriptionId'
+              }
+          }
+      }
+  }
 }
 module.exports = Subscriptions

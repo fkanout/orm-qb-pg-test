@@ -13,7 +13,7 @@ app.use(router.allowedMethods());
 
 
 const  {knex} = require('./db')
-const  {Organizations, Subscriptions} = require('./db/models')
+const  {Organizations, Subscriptions, Offerings} = require('./db/models')
 
 router.post('/qb/organizations', async (ctx, next) => {
     const orgAdded = await knex('organizations').insert(ctx.request.body)
@@ -64,8 +64,8 @@ router.get('/orm/organizations/subscriptions', async (ctx, next) => {
 });
 
 router.get('/orm/organizations/:id/subscriptions', async (ctx, next) => {
-    const allOrg = await Organizations.query().where('id', ctx.params.id).eager(`subscriptions${('onlyActive' in ctx.query) ? '(onlyActive)': ''}`);    
-    ctx.body = allOrg
+    const oneOrg = await Organizations.query().where('id', ctx.params.id).eager(`subscriptions${('onlyActive' in ctx.query) ? '(onlyActive)': ''}`);    
+    ctx.body = oneOrg
     await next()
 });
 
@@ -80,5 +80,13 @@ router.post('/orm/subscriptions', async (ctx, next) => {
     ctx.body = subAdded
     await next()
 });
+
+
+router.get('/orm/offerings', async (ctx, next) => {
+    const allOfferings = await Offerings.query()
+    ctx.body = allOfferings
+    await next()
+});
+
 
 app.listen(3000, ()=> console.info('Server running...'));
