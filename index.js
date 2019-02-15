@@ -52,20 +52,33 @@ router.post('/orm/organizations', async (ctx, next) => {
 });
  
 router.get('/orm/organizations', async (ctx, next) => {
-    // const allOrg = await Organizations.query().limit(ctx.query.limit||10)//page, rage
-    const allOrg = await Organizations.query().eager('subscriptions');    
+    const allOrg = await Organizations.query().limit(ctx.query.limit||10)//page, rage 
+    ctx.body = allOrg
+    await next()
+});
 
+router.get('/orm/organizations/subscriptions', async (ctx, next) => {
+    const allOrg = await Organizations.query().eager(`subscriptions${('onlyActive' in ctx.query) ? '(onlyActive)': ''}`);    
+    ctx.body = allOrg
+    await next()
+});
 
+router.get('/orm/organizations/:id/subscriptions', async (ctx, next) => {
+    const allOrg = await Organizations.query().where('id', ctx.params.id).eager(`subscriptions${('onlyActive' in ctx.query) ? '(onlyActive)': ''}`);    
     ctx.body = allOrg
     await next()
 });
 
 router.get('/orm/subscriptions', async (ctx, next) => {
-    const allSub = await Subscriptions.query().eager('organizationsId(selectNameAndId)');    
+    const allSub = await Subscriptions.query()    
     ctx.body = allSub
     await next()
 });
 
-
+router.post('/orm/subscriptions', async (ctx, next) => {
+    const subAdded = await Subscriptions.query().insert(ctx.request.body);
+    ctx.body = subAdded
+    await next()
+});
 
 app.listen(3000, ()=> console.info('Server running...'));
