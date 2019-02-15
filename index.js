@@ -2,17 +2,8 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 
-const graphQlBuilder = require('objection-graphql').builder;
-const graphqlHTTP = require('koa-graphql');
-
 const  {knex} = require('./db')
 const  {Organizations, Subscriptions, Offerings} = require('./db/models')
-
-const graphQlSchema = graphQlBuilder()
-  .model(Organizations)
-  .model(Subscriptions)
-  .model(Offerings)
-  .build();
 
 const app = new Koa();
 const router = new Router();
@@ -116,6 +107,14 @@ router.get('/orm/offerings', async (ctx, next) => {
 });
 // *************************
 
+const graphQlBuilder = require('objection-graphql').builder;
+const graphqlHTTP = require('koa-graphql');
+
+const graphQlSchema = graphQlBuilder()
+  .model(Organizations)
+  .model(Subscriptions)
+  .model(Offerings)
+  .build();
 
 router.all('/graphql', graphqlHTTP({
     schema: graphQlSchema,
