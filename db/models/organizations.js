@@ -18,5 +18,24 @@ class Organizations extends Model {
             }
         }
     }
+    static get jsonSchema() {
+        return {
+          type: 'object',
+          properties: {
+            id: {type: 'string', format: 'uuid'},
+            referenceId: {type: 'string', nullable: 'true'},
+            sourceName: {type: 'string'},
+            sourceOrganizationId: {type: 'string'},
+            migrated: {type: 'boolean'},
+            manuallyTerminated: {type: 'boolean'},
+            region: {type: 'string'},
+            domain: {type: 'string'},
+            lastModifiedVia: {type: 'string'},
+            isComplete: {type: 'boolean'},
+            creationDate: {type: 'dateTime'},
+            modificationDate: {type: 'dateTime'},
+          }
+        };
+      }
 }
 module.exports = Organizations

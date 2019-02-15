@@ -1,4 +1,6 @@
 const {Model} = require('../index')
+const Validator = require('objection').Validator;
+const ValidationError = require('objection').ValidationError;
 
 class Subscriptions extends Model {
     static get tableName() {
@@ -14,7 +16,7 @@ class Subscriptions extends Model {
     static get relationMappings() {
       const {Offerings} = require('./')
       return {
-          subscriptions: {
+          offerings: {
               relation: Model.HasManyRelation,
               modelClass: Offerings,
               join: {
@@ -23,6 +25,24 @@ class Subscriptions extends Model {
               }
           }
       }
+  }
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      properties: {
+        id: {type: 'string', format: 'uuid'},
+        name: {type: 'string', nullable: 'false'},
+        status: {type: 'string'},
+        autoRenew: {type: 'boolean'},
+        lastModifiedVia: {type: 'string'},
+        organizationId: {type: 'string', format: 'uuid'},
+        startDate: {type: 'dateTime'},
+        endDate: {type: 'dateTime'},
+        isComplete: {type: 'boolean'},
+        creationDate: {type: 'dateTime'},
+        modificationDate: {type: 'dateTime'},
+      }
+    };
   }
 }
 module.exports = Subscriptions
