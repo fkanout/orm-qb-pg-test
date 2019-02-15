@@ -36,11 +36,11 @@ class Subscriptions extends Model {
         autoRenew: {type: 'boolean'},
         lastModifiedVia: {type: 'string'},
         organizationId: {type: 'string', format: 'uuid'},
-        startDate: {type: 'dateTime'},
-        endDate: {type: 'dateTime'},
+        startDate: {type: 'string', format: 'date-time'},
+        endDate: {type: 'string', format: 'date-time'},
         isComplete: {type: 'boolean'},
-        creationDate: {type: 'dateTime'},
-        modificationDate: {type: 'dateTime'},
+        creationDate: {type: 'string', format: 'date-time'},
+        modificationDate: {type: 'string', format: 'date-time'},
       }
     };
   }

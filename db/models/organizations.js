@@ -32,8 +32,8 @@ class Organizations extends Model {
             domain: {type: 'string'},
             lastModifiedVia: {type: 'string'},
             isComplete: {type: 'boolean'},
-            creationDate: {type: 'dateTime'},
-            modificationDate: {type: 'dateTime'},
+            creationDate: {type: 'string', format: 'date-time'},
+            modificationDate: {type: 'string', format: 'date-time'},
           }
         };
       }

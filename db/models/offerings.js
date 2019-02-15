@@ -19,13 +19,13 @@ class Offerings extends Model {
           offeringTemplateVersion: {type: 'integer'},
           modified: {type: 'boolean'},
           subscriptionId: {type: 'string', format: 'uuid'},
-          startDate: {type: 'dateTime'},
-          endDate: {type: 'dateTime'},
+          startDate:{type: 'string', format: 'date-time'},
+          endDate: {type: 'string', format: 'date-time'},
           lastModifiedVia: {type: 'string'},
           isComplete: {type: 'boolean'},
           hidden: {type: 'boolean'},
-          creationDate: {type: 'dateTime'},
-          modificationDate: {type: 'dateTime'},
+          creationDate: {type: 'string', format: 'date-time'},
+          modificationDate: {type: 'string', format: 'date-time'},
         }
       };
     }

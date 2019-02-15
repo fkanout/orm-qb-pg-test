@@ -4,12 +4,15 @@
   "description": "Test different Node ORMs and query builders using PostgreSQL DB",
   "main": "index.js",
   "dependencies": {
+    "graphql": "^14.1.1",
     "knex": "^0.16.3",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
+    "koa-graphql": "^0.8.0",
     "koa-router": "^7.4.0",
     "nodemon": "^1.18.10",
     "objection": "^1.5.3",
+    "objection-graphql": "^0.4.4",
     "pg": "^7.8.0",
     "sqlite3": "^4.0.6"
   },
