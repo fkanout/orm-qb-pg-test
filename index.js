@@ -4,6 +4,7 @@ const bodyParser = require('koa-bodyparser');
 
 const  {knex} = require('./db')
 const  {Organizations, Subscriptions, Offerings} = require('./db/models')
+const  findQuery = require('objection-find');
 
 const app = new Koa();
 const router = new Router();
@@ -59,8 +60,10 @@ router.post('/orm/organizations', async (ctx, next) => {
 });
  
 router.get('/orm/organizations', async (ctx, next) => {
-    const allOrg = await to(Organizations.query().limit(ctx.query.limit||10))//page, rage 
-    ctx.body = allOrg
+    ctx.body = await findQuery(Organizations)
+        .allow(['id', 'domain', 'subscriptions.id', 'subscriptions.status'])
+        .allowEager('subscriptions.[offerings]')
+        .build(ctx.query)
     await next()
 });
 

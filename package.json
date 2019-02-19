@@ -12,6 +12,7 @@
     "koa-router": "^7.4.0",
     "nodemon": "^1.18.10",
     "objection": "^1.5.3",
+    "objection-find": "^1.0.0",
     "objection-graphql": "^0.4.4",
     "pg": "^7.8.0",
     "sqlite3": "^4.0.6"
