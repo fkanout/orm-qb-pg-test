@@ -61,7 +61,7 @@ router.post('/orm/organizations', async (ctx, next) => {
  
 router.get('/orm/organizations', async (ctx, next) => {
     ctx.body = await findQuery(Organizations)
-        .allow(['id', 'domain', 'subscriptions.id', 'subscriptions.status'])
+        .allow(['id', 'domain', 'subscriptions.id', 'subscriptions.status', 'creationDate'])
         .allowEager('subscriptions.[offerings]')
         .build(ctx.query)
     await next()
